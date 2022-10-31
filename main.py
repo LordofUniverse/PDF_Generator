@@ -39,17 +39,9 @@ def resiz(imageurl, h, w):
 def whiteBG(url):
     im = Image.open('images/' + url)
     arr = np.array(im)
-    height = arr.shape[0]
-    width = arr.shape[1]
-
-    for i in range(height):
-        for j in range(width):
-            if arr[i][j][3] == 0:
-                arr[i][j] = [255, 255, 255, 255]
-            else:
-                arr[i][j] = [255, 255, 255, 0]
+    arr[:, :][arr[:, :, 3] != 0] = [0, 0, 0, 255]
+    arr[:, :][arr[:, :, 3] == 0] = [255, 255, 255, 255]
     returnimg = Image.fromarray(arr)
-    
     return returnimg
 
 pasteText(330, 80, "Welcome to IITB")
@@ -61,3 +53,5 @@ pasteText(250, 160, "Guest Name: ")
 pasteText(250, 200, "Aadhar num: ")
 
 img.save('guestEntry.png')
+img.convert('RGB').save('guestEntry.jpg')
+img.convert('RGB').save('guestEntry.pdf')
